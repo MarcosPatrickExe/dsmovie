@@ -12,6 +12,9 @@ public class DsmovieApplication {
 
 }
 
+// mvn spring-boot:run
+
+
 /*
      Caso vc tenha adicionado a dependendia "spring-boot-start-security" entao
      ao rodar pela primeira vez o servidor sera exibida uma pagina de login na qual
