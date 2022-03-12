@@ -9,10 +9,12 @@ export default function Listing(){
     return (
         <React.Fragment>
               <Pagination />
-              <h1>Página de listagem</h1>
+              <h1 className="mb-3 mt-3" style={{fontSize: '42px', marginLeft: '7%', color: 'white'}}>
+                  Filmes em alta
+              </h1>
 
               <div className="container">
-                  <div className="row">
+                    <div className="row">
                         <div className="col-sm-6  col-lg-4 col-xl-3  mb-3">
                             <MovieCard />
                         </div>
