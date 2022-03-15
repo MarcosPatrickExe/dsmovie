@@ -13,7 +13,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "tb_movie") // AO INVES DE CRIAR A TABELA COM O NOME DA CLASSE,
+@Table( name = "tb_movie" ) // AO INVES DE CRIAR A TABELA COM O NOME DA CLASSE,
 // O JPA IRA CRIAR UMA TABELA CORRESPONDENTE CHAMADA DE "tb_movie"
 public class Movie {
     
@@ -30,13 +30,15 @@ public class Movie {
      private Integer count;
      private String image;
      
-     // A anotacao "OneToMany" indica q um filme tem varias avaliacoes
+     //     A anotacao "OneToMany" indica q um mesmo filme tem varias avaliacoes
      @OneToMany (mappedBy = "id.movie")// 'id' da classe Score e 'movie' se trata do atributo da classe "ScorePK"
      private Set<Score> scores= new HashSet<>();
-     // A estrutura Set evita o registro de dados repetidos
+     /*  A estrutura Set evita o registro de dados repetidos e vai permitir mapear todos os registros dentro 
+          da tabela "tb_score" que contenham o ID desse filme, ou seja, irá fazer referencia para todo o conjunto
+          de avaliacoes  desse filme.     */
      
      
-     public Movie(){}
+     public Movie (){  }
      
      public Movie (Long id, String title, Double score, Integer count, String image){
            this.id = id;

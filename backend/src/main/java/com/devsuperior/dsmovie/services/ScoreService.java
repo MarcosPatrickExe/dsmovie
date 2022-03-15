@@ -9,11 +9,13 @@ import com.devsuperior.dsmovie.repositories.MovieRepository;
 import com.devsuperior.dsmovie.repositories.ScoreRepository;
 import com.devsuperior.dsmovie.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *       @author Patrick
  */
+@Service
 public class ScoreService {
             
       @Autowired
@@ -27,24 +29,28 @@ public class ScoreService {
       
       
       @Transactional
-       public MovieDTO salvarAvaliacaoDoFilme ( ScoreDTO sco){ 
+       public MovieDTO salvarAvaliacaoDoFilme ( ScoreDTO objetoRequisicao){ 
 /*    "dto" se trata de um objeto com os campos de 
-       "email", id do filme  e valor da avaliação    */
-                    
+       "email", "id" do filme  e valor ("value") da avaliação    */
+       
+       System.out.println("ID do filme: "+objetoRequisicao.getMovieId());
+       System.out.println("Email do usuario: "+objetoRequisicao.getEmail());
+       System.out.println("valor da avaliacao: "+objetoRequisicao.getScore());
+
              // SALVANDO O EMAIL DO USUARIO CASO NAO EXISTA
              User usuario = this
                                             .userRepository
                                                         .findByEmail( // metodo personalizado na interface "UserRepository"
-                                                                sco.getEmail()
+                                                                objetoRequisicao.getEmail()
                                                         );
        
              if (usuario==null ){
                     usuario = new User(); // Criado entidade para salvar no banco de dados atraves do "Repository"
-                    usuario.setEmail( sco.getEmail() );
+                    usuario.setEmail ( objetoRequisicao.getEmail() );
                  
                     usuario = this.userRepository.save( usuario ); 
                 /* Salva no banco e retorna uma nova referencia
-                   para "usuario" */
+                   para  a entitdade  "usuario" */
              }
              //==========================================
              
@@ -52,15 +58,15 @@ public class ScoreService {
              Movie movie  = this
                                              .movieRepo
                                                     .findById (
-                                                                sco.getMovieId() 
+                                                                objetoRequisicao.getMovieId() 
                                                     ).get();
         
              Score score = new Score();
-             score.setMovie (movie);
-             score.setUser (usuario);
-             score.setValue ( sco.getScore() );
+             score.setMovie (movie); // Passando a referencia do filme
+             score.setUser (usuario); // Passando a referencia do usuario
+             score.setValue ( objetoRequisicao.getScore() ); // Passando o valor da nota
              
-             score = this.scoreRepository.saveAndFlush( score ); 
+             score = this.scoreRepository.saveAndFlush( score ); // Salvando a entididade "score" na tabela "tb_score"
 /*        O metodo "saveAnfFlush()" Salva o dado da avaliacao 
              dentro da tabela "Score" junto com os IDS de Movie e 
              de User garante que vai salvar e retornar a referencia 
@@ -69,20 +75,21 @@ public class ScoreService {
        
                
 /*     RECALCULANDO A AVALIAÇÃO MÉDIA DO FILME (MÉDIA DOS 
-        VALORES DO SCORE) E SALVAR NO BANCO DE DADOS   */
+        VALORES DO SCORE), CALCULANDO O NUMERO DE VALORES/NOTAS ATRIBUIDAS
+        AO FILME  E LOGO DEPOIS  SALVANDO ISSO NO BANCO DE DADOS....   */
                
- /*    Os campos "Value" se trata da media das notas atribuidas ao filme,
+ /*    O campo "Value" na tabela "tb_movie" se trata da media das notas atribuidas ao filme,
         logo, é necessaria a criação do campo Set<Score> scores que ira armazenar
         todas as notas e depois ser consultado para fazer a media   */
         
            double sum = 0.0;
            
-           for ( Score s : movie.getScores() ) {
+           for ( Score s : movie.getScores() ) { // getScores() permite obter uma lista de scores associados a um filme
                   sum += s.getValue();
            }
            
-           double average = sum / movie.getScores().size();// obtendo o campo 'Value"
-           movie.setScore( average );
+           double average = sum / movie.getScores().size();// obtendo o campo "Value"
+           movie.setScore( average ); // Guardando a media de scores/notas atribuida ao filme dentro da entidade "Movie" ou tabela "tb_movie"
            movie.setCount( movie.getScores().size() );
            
           movie = this.movieRepo.save(movie); // salvando filme no banco de dados
