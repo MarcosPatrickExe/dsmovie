@@ -1,15 +1,14 @@
 import MovieScore from 'components/MovieScore/index';
 import { Link } from 'react-router-dom';
+import { Movie } from 'types/movie';
 
-export default function MovieCard(){
+type Props = { // Personalizando os atributos de um objeto do tipo Props
+    movie: Movie;
+}
 
-    const movie = {
-        id: 1,
-        image: "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/jBJWaqoSCiARWtfV0GlqHrcdidd.jpg",
-        title: "The witcher",
-        count: 2,
-        score: 4.5
-    }
+export default function MovieCard( { movie } : Props ){
+// Parametro necessario para evitar o acesso ao objeto pela sintaxe: "props.movie"
+
 
     return(
         <div>

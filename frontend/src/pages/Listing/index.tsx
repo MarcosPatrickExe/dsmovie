@@ -36,6 +36,17 @@ export default function Listing(){
     */
 
     const [pageNumber, setPageNumber] = useState(0);
+    const [page, setPages] = useState <MoviePage>({ // Parametrizando com o generics "<MoviePage>"
+        content: [],
+        last: true,
+        totalPages: 0,
+        totalElements: 0,
+        size: 0,
+        number: 0,
+        first: true,
+        numberOfElements: 0,
+        empty: true
+    });
 
     useEffect(()=>{
         const aux = {
@@ -46,21 +57,18 @@ export default function Listing(){
         }
 
       //axios.get( `${BASE_URL}/movies?size=12&page=0`)
-        axios.get( `${aux.backend_domain}/movies?size=12&page=0`, aux.config)
+        axios.get( `${aux.backend_domain}/movies?size=12&page=${pageNumber}`, aux.config) //page=0&sort=id OU &sort=title
             .then( (response : any) =>{
-                    console.log(typeof(response));
-                    console.log(response.data);
-
                     const data = response.data as MoviePage;// Associando os dados recebidos ao objeto "MoviePage"
                     setPageNumber(data.number);
-                    alert("numero de filmes: "+data.size);
+                    setPages( data );// Passando uma lista do tipo "<MoviePage>", para a funcao "setPages<MoviePage>()"
 
                 }).catch( (error: any)=>{
                      alert("Erro ao tentar acessar o servidor backend....");
                 });
+    }, [pageNumber]);
 
-    }, []);
-
+  
     return (
         <React.Fragment>
               <Pagination />
@@ -71,21 +79,21 @@ export default function Listing(){
 
               <div className="container">
                     <div className="row">
-                        <div className="col-sm-6  col-lg-4 col-xl-3  mb-3">
-                            <MovieCard />
-                        </div>
-                        <div className="col-sm-6  col-lg-4 col-xl-3  mb-3">
-                            <MovieCard />
-                        </div>
-                        <div className="col-sm-6  col-lg-4 col-xl-3  mb-3">
-                            <MovieCard />
-                        </div>
-                        <div className="col-sm-6  col-lg-4 col-xl-3  mb-3">
-                            <MovieCard />
-                        </div>
-                        <div className="col-sm-6  col-lg-4 col-xl-3  mb-3">
-                            <MovieCard />
-                        </div>
+
+                        {
+                            page.content.map( ( movie)=>{
+                                return (
+                                        <div key={movie.id} className="col-sm-6  col-lg-4 col-xl-3  mb-4">
+                                                <MovieCard movie={ movie } />
+                                            {/* Criando propriedade com 
+                                                o nome de "movie" que tem 
+                                                como valor o objeto "movie"
+                                            */}
+                                        </div>
+                                )
+                            })
+
+                        }
                        
                     </div>
               </div>
