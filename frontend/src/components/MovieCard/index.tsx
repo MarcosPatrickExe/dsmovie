@@ -1,5 +1,5 @@
 import MovieScore from 'components/MovieScore/index';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Movie } from 'types/movie';
 
 type Props = { // Personalizando os atributos de um objeto do tipo Props
@@ -8,7 +8,6 @@ type Props = { // Personalizando os atributos de um objeto do tipo Props
 
 export default function MovieCard( { movie } : Props ){
 // Parametro necessario para evitar o acesso ao objeto pela sintaxe: "props.movie"
-
 
     return(
         <div>
