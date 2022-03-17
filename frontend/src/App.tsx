@@ -16,7 +16,8 @@ function App() {
                   <Route path="/" element={<Listing />}></Route>
                  
                   <Route path="/form">
-                      <Route path=":moveId" element={<Form />}></Route>
+                      <Route path=":movieId" element={<Form />}></Route>
+                      {/* ':movieId' é o nome do path variable */}
                   </Route>
             </Routes>
       </BrowserRouter>

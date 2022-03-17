@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react';
 //import {BASE_URL} from "utils/requests";
 import React from "react";
 import MovieCard from "components/MovieCard/index";
-import "../Form/style.css";
+import "../../components/FormCard/style.css";
 import { MoviePage } from "types/movie";
 
 export default function Listing(){
@@ -80,7 +80,7 @@ export default function Listing(){
               <div className="container">
                     <div className="row">
 
-                        {
+                        {  /*================= LISTANDO O "MOVIE CARD" ====================*/
                             page.content.map( ( movie)=>{
                                 return (
                                         <div key={movie.id} className="col-sm-6  col-lg-4 col-xl-3  mb-4">
@@ -92,7 +92,6 @@ export default function Listing(){
                                         </div>
                                 )
                             })
-
                         }
                        
                     </div>

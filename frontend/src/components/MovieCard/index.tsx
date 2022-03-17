@@ -1,5 +1,5 @@
 import MovieScore from 'components/MovieScore/index';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Movie } from 'types/movie';
 
 type Props = { // Personalizando os atributos de um objeto do tipo Props

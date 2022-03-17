@@ -3,41 +3,43 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Movie } from "types/movie";
 import './style.css';
+//import {BASE_URL} from "utils/requests";
 
 
 type Props = {
      movieId : string
 }
 
-
 export default function FormCard( { movieId }: Props ){
 
     const [movie, setMovie] = useState<Movie>();
+
 
     useEffect( ()=>{
         const aux = {
             backend_domain : "https://patrick-dsmovie-backend.herokuapp.com",
             config : {
                 headers: {'Access-Control-Allow-Origin':'*'}
-            }    
+            }
         }
 
-        axios.get( `${aux.backend_domain}/movies/${movieId}`)
-            .then( (response)=>{
+        axios.get( `${aux.backend_domain}/movies/${movieId}`, aux.config) // RETORNA UMA PROMISE
+            .then( (response : any )=>{
                 const filme = response.data as Movie;
                 setMovie(filme);
 
-            }).catch( (error)=>{
-                alert("Erro ao tentar se conectar com o backend!!!!! ");
+            }).catch( (error: any)=>{
+                alert(`Erro ao tentar se conectar com o backend!!!!! ${movieId}`);
             })
 
+       // alert(`${aux.backend_domain}/movies/${movieId}`);
 
     } ,[movieId]);
-    /* o "movieId" é uma independencia do useEffect, 
-        o que indica que a requisicao so vai ser refeita
-         caso essa variavel for alterada */
+    /* o "movieId" é uma dependencia do useEffect, 
+        o que indica que a requisicao so vai ser efeita (ou refeita)
+         quando o valor dessa variavel for alterada */
 
-         
+
     return(
 
         <div className="dsmovie-form-container">
