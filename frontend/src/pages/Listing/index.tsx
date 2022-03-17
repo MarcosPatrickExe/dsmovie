@@ -36,6 +36,7 @@ export default function Listing(){
     */
 
     const [pageNumber, setPageNumber] = useState(0);
+
     const [page, setPages] = useState <MoviePage>({ // Parametrizando com o generics "<MoviePage>"
         content: [],
         last: true,
@@ -69,12 +70,20 @@ export default function Listing(){
     }, [pageNumber]);
 
   
+    const handlePageChange = ( newPageNumber : number)=>{
+
+     //   if ( ((newPageNumber-1) !== -1) && 
+       //         ((newPageNumber-1) < page.size))
+                    setPageNumber( newPageNumber);
+    }
+
+
     return (
         <React.Fragment>
-              <Pagination />
+              <Pagination page={page} onChange={handlePageChange}  />
 
               <h1 className="mb-3 mt-3" style={{fontSize: '42px', marginLeft: '7%', color: 'white'}}>
-                  Filmes em alta:  (Pagina {pageNumber})
+                  Filmes em alta:
               </h1>
 
               <div className="container">

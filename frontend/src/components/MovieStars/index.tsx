@@ -38,11 +38,8 @@ export default function MovieStars( {score}:Props ){
 
                         else if(valor === 0)
                             return <StarEmpty />
-
                 })
-
             }
-
           
         </div>
     );
