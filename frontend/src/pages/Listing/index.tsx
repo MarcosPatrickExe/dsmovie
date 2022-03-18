@@ -6,6 +6,8 @@ import React from "react";
 import MovieCard from "components/MovieCard/index";
 import "../../components/FormCard/style.css";
 import { MoviePage } from "types/movie";
+import { BASE_URL } from "utils/requests";
+
 
 export default function Listing(){
 
@@ -51,10 +53,10 @@ export default function Listing(){
 
     useEffect(()=>{
         const aux = {
-            backend_domain : "https://patrick-dsmovie-backend.herokuapp.com",
+            backend_domain : `${BASE_URL}`,
             config : {
                 headers: {'Access-Control-Allow-Origin':'*'}
-            }    
+            }
         }
 
       //axios.get( `${BASE_URL}/movies?size=12&page=0`)

@@ -4,7 +4,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { Movie } from "types/movie";
 import validateEmail from 'utils/validate';
 import './style.css';
-//import {BASE_URL} from "utils/requests";
+import { BASE_URL } from "utils/requests";
 
 
 type Props = {
@@ -23,7 +23,7 @@ export default function FormCard( { movieId }: Props ){
 
     useEffect( ()=>{
         const aux = {
-            backend_domain : "https://patrick-dsmovie-backend.herokuapp.com",
+            backend_domain : `${BASE_URL}`,
             config : {
                 headers: {'Access-Control-Allow-Origin':'*'}
             }
@@ -97,7 +97,7 @@ export default function FormCard( { movieId }: Props ){
                return;
 
           const config : AxiosRequestConfig = {
-               baseURL: "https://patrick-dsmovie-backend.herokuapp.com", //BaseURL
+               baseURL: `${BASE_URL}`,
                method: 'PUT',
                url: '/scores',// TRECHO QUE SERA ADICIONADO NA BASE URL...
                data: {
