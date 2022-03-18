@@ -30,16 +30,18 @@ export default function MovieStars( {score}:Props ){
             {
                 getFills(score)
                     .map( (valor : number, index : number) =>{
-                        
+                         let estrela;
+
                          if (valor===1)
-                             return <React.Fragment key={index}> <StarFull /> </React.Fragment> 
+                             estrela = <React.Fragment key={index}> <StarFull /> </React.Fragment> 
 
                          else if (valor===0.5)
-                             return <React.Fragment key={index}> <StarHalf /> </React.Fragment> 
+                             estrela = <React.Fragment key={index}> <StarHalf /> </React.Fragment> 
 
                          else if (valor===0)
-                             return <React.Fragment key={index}> <StarEmpty /> </React.Fragment> 
+                             estrela = <React.Fragment key={index}> <StarEmpty /> </React.Fragment> 
                        
+                         return estrela;
                     })
             }
           
