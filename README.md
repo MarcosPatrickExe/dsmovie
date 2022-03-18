@@ -4,6 +4,13 @@
 
 <Hr />
 
+# Site Preview: :eye:
+<img src="https://i.imgur.com/Z0VNAH6.png" alt="dsmovie site preview" title="dsmovie site preview" />
+
+<Hr />
+
+
+
 # Principais funcionalidades
 :green_circle: 1 - Listar filmes <Br />
 :green_circle: 2 - Cadastrar avaliação de um determinado filme
