@@ -1,4 +1,4 @@
-export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? "http://localhost:3000";
+export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? "https://patrick-dsmovie-backend.herokuapp.com";//http://localhost:3000
 
 /**
  * A variavel "BASE URL" FACILITARA A REQUISICAO PARA A APLICACAO BACKEND.

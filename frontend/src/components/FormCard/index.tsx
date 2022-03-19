@@ -19,7 +19,8 @@ export default function FormCard( { movieId }: Props ){
     const navigate = useNavigate();
 
     const [movie, setMovie] = useState<Movie>();  
-
+    const [update, setUpdate] = useState(false);
+    const [salvo, salvar] = useState('salvo-sucesso');
 
     useEffect( ()=>{
         const aux = {
@@ -53,35 +54,45 @@ export default function FormCard( { movieId }: Props ){
           <img className="dsmovie-movie-card-image" src={ movie?.image } alt={ `${movie?.title}`}/>
           <div className="dsmovie-card-bottom-container">
                <h3>{ movie?.title }</h3>
+
+
                <form className="dsmovie-form" onSubmit={ formularioEnviado }>
-                    <div className="form-group dsmovie-form-group">
-                         <label htmlFor="email">Informe seu email</label>
-                         <input type="email" className="form-control" id="email" />
-                    </div>
-                    <div className="form-group dsmovie-form-group">
-                         <label htmlFor="score">Informe sua avaliação</label>
-                         <select className="form-control" id="score">
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
-                         </select>
-                    </div>
-                    <div className="dsmovie-form-btn-container">
-                         <button type="submit" className="btn btn-primary dsmovie-btn">Salvar</button>
-                    </div>
+                         <div className="form-group dsmovie-form-group">
+                              <label htmlFor="email">Informe seu email</label>
+                              <input type="email" className="form-control" id="email" />
+                              <h5 className="mt-2" style={{color: 'red', fontSize: 14, display: (update===false)? "none": "block" }}>
+                                   Formato de email incorreto....
+                              </h5>
+                         </div>
+
+                         <div className="form-group dsmovie-form-group">
+                              <label htmlFor="score">Informe sua avaliação</label>
+                              <select className="form-control" id="score" onClick={ ()=>{ setUpdate(false);} }>
+                                   <option>1</option>
+                                   <option>2</option>
+                                   <option>3</option>
+                                   <option>4</option>
+                                   <option>5</option>
+                              </select>
+                         </div>
+
+                         <div className="dsmovie-form-btn-container">
+                              <button type="submit" className={`btn btn-primary dsmovie-btn  ${salvo==="aparecer"?'ocultar':''}`}>Salvar</button>
+                         </div>
                </form >
 
+
                <Link to="/">
-                    <button className="btn btn-primary dsmovie-btn mt-3">Cancelar</button>
+                    <button className={`btn btn-primary dsmovie-btn mt-3  ${salvo==="aparecer"?'ocultar':''}`}>Cancelar</button>
                </Link>
+
+               <div className={`${salvo}`}>{/*{ salvo===false?'salvo-sucesso':'aparecer'} */}
+                    <h4>Salvo!</h4>     
+               </div>
+         
           </div>
         </div >
     );
-
-
-
 
      //=========================== FUNCAO DE ENVIAR FORMULARIO ================================
 
@@ -93,8 +104,14 @@ export default function FormCard( { movieId }: Props ){
 
           const score = (event.target as any).score.value;
           
-          if( !validateEmail(email) )
+          if( !validateEmail(email) ){ // SE EMAIL INCORRETO....
+               setUpdate(true);
                return;
+          }else{
+               setUpdate(false); // TIRANDO A MENSAGEM DE ERRO DO EMAIL
+               salvar('aparecer'); // FAZ A DIV "SALVO" APARECER
+          }
+             
 
           const config : AxiosRequestConfig = {
                baseURL: `${BASE_URL}`,
@@ -109,6 +126,7 @@ export default function FormCard( { movieId }: Props ){
 
      
      //========= FAZENDO UMA REQUISICAO PARA CADASTRAR OS DADOS ( MÉTODO 1) ===============
+       /*
           const cadastrarAvalicao = async ()=>{
 
                try{
@@ -116,6 +134,8 @@ export default function FormCard( { movieId }: Props ){
                     console.log("status dos Server: "+dados.status );
                     console.log(JSON.stringify(dados.data, undefined, 4));
 
+                   // setTimeout(()=> console.log("..."), 20000)
+                    
                     navigate('/');// RETORNANDO PARA A PAGINA INICIAL DE LISTAGEM DE FILMES
 
                }catch(error : any){
@@ -124,20 +144,29 @@ export default function FormCard( { movieId }: Props ){
           }
 
           console.log( cadastrarAvalicao() );
-
+       */
 
           //========= FAZENDO UMA REQUISICAO PARA CADASTRAR OS DADOS ( MÉTODO 2) ===============
-               /*
-               axios(config)
-                    .then( (response)=>{
-                         console.log("Cadastrado com sucesso!!!!!");
-                         console.log(JSON.stringify(response.data, undefined, 4));
+               
+          axios(config)
+               .then( (response)=>{
+                    console.log("Cadastrado com sucesso!!!!!");
+                    console.log(JSON.stringify(response.data, undefined, 4));
+                   
+                    setTimeout(()=> {
+                           navigate('/');}, 
+                    1500)
+                    // RETORNANDO PARA A PAGINA INICIAL DE LISTAGEM DE FILMES
 
-                    }).catch( (error)=>{
-                         alert("Houve um erro ao tentar acessar o servidor...   \n"+ error);
-                    })
-               */
-     }     
+               }).catch( (error)=>{
+                    alert("Houve um erro ao tentar acessar o servidor...   \n"+ error);
+               })
+               
+         
+          //console.log("promessa: "+promessa);
+
+         
+     }
 
 }
 
